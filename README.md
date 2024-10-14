@@ -1,1 +1,1 @@
-# fhdw-programmierung-1
+# FHDW-Modul: Programmieren 1 (10/2024)
