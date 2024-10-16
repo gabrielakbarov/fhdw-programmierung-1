@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 void output(int n) {
     for (int i = 0; i < n; i++) {
         int limit = i <= n / 2 ? i : n - i - 1;
