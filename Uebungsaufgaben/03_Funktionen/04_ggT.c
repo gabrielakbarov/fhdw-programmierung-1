@@ -21,7 +21,9 @@ int main(void) {
     printf("%i\n", recursive(5, 10));
     printf("%i\n", recursive(7, 456));
     printf("%i\n", recursive(56, 56));
+
     printf("\n");
+
     printf("%i\n", iterative(5, 10));
     printf("%i\n", iterative(7, 456));
     printf("%i\n", iterative(56, 56));
