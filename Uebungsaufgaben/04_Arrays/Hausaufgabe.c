@@ -53,7 +53,7 @@ struct product
 
 void setName(struct product* prod, char st[])
 {
-    strncpy(prod->name, st, sizeof(prod->name) - 1);
+    copyString(prod->name, st);
     prod->name[sizeof(prod->name) - 1] = '\0';
 }
 
@@ -105,7 +105,10 @@ void display(struct product* prod)
 
 void copyProduct(struct product* dest, struct product* src)
 {
-    *dest = *src;
+    setName(dest, src->name);
+    setId(dest, src->id);
+    setAmount(dest, src->amount);
+    setPrice(dest, src->price);
 }
 
 void swapProduct(struct product* a, struct product* b)
