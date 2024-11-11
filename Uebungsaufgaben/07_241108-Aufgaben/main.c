@@ -2,6 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 
+struct adress {
+  int isUsed;
+  char street[100];
+  int number;
+  char city[100];
+  int postalCode;
+};
+
 void addTwoNumbers(int *a, int *b, int *c, int arrayLaenge) {
   for(int i = 0; i < arrayLaenge; i++){
     *c = *a + *b;
@@ -155,6 +163,105 @@ char* stringRemoveChars(char* string, char* spanset)
   return string;
 }
 
+void setAddress(struct adress* arr, int pos, char* street, int number, char* city, int postalCode)
+{
+  arr[pos].isUsed = 1;
+  strcpy(arr[pos].street, street);
+  arr[pos].number = number;
+  strcpy(arr[pos].city, city);
+  arr[pos].postalCode = postalCode;
+}
+
+void printAddress(struct adress* arr, int pos)
+{
+  printf("Die Adresse an Position %i lautet: %s %i, %i %s\n", pos+1, arr[pos].street, arr[pos].number, arr[pos].postalCode, arr[pos].city);
+}
+
+void printAllAdds(struct adress* arr)
+{
+  for(int i = 0; i < 100; i++)
+  {
+    printAddress(arr, i);
+  }
+}
+
+void printAddsAtPostalCode(struct adress* arr, int postalCode)
+{
+  for(int i = 0; i < 100; i++)
+  {
+    if(arr[i].postalCode == postalCode)
+    {
+      printAddress(arr, i);
+    }
+  }
+}
+
+void deleteAddsAtPostalCode(struct adress* arr, int postalCode)
+{
+  for(int i = 0; i < 100; i++)
+  {
+    if(arr[i].postalCode == postalCode)
+    {
+      arr[i].isUsed = 0;
+      strcpy(arr[i].street, "");
+      arr[i].number = 0;
+      strcpy(arr[i].city, "");
+      arr[i].postalCode = 0;
+    }
+  }
+}
+
+int countAdds(struct adress* arr)
+{
+  int count = 0;
+
+  for(int i = 0; i < 100; i++)
+  {
+    if(arr[i].isUsed != 0)
+    {
+      count++;
+    }
+  }
+
+  return count;
+}
+
+int checkIfUsed(struct adress* arr, int pos)
+{
+  return arr[pos].isUsed;
+}
+
+void printIfUsed(struct adress* arr, int pos)
+{
+  if(checkIfUsed(arr, pos) == 1)
+  {
+    printf("Adresse an der Stelle %i ist belegt.\n", pos+1);
+  }else
+  {
+    printf("Adresse an der Stelle %i ist nicht belegt.\n", pos+1);
+  }
+}
+
+void swap(struct adress* arr, int pos1, int pos2)
+{
+  struct adress temp;
+  temp = arr[pos1];
+  arr[pos1] = arr[pos2];
+  arr[pos2] = temp;
+}
+
+void deleteAllAdds(struct adress* arr)
+{
+  for(int i = 0; i < 100; i++)
+  {
+    arr[i].isUsed = 0;
+    strcpy(arr[i].street, "");
+    arr[i].number = 0;
+    strcpy(arr[i].city, "");
+    arr[i].postalCode = 0;
+  }
+}
+
 int main(){
   int a[] = {1,2,3,4,5};
   int b[] = {6,7,8,9,10};
@@ -186,6 +293,52 @@ int main(){
   printf("D: '%s'; E: '%s'; Unterschiede: '%s'\n", d, e, compareStrings(d, e));
   printf("%s\n", stringRemoveChars(f, g));
   printf("'ABC' kommt %i Mal in 'ABCABCABC' vor.", substring(h, i));
+  printf("\n");
+
+  printf("\n");
+  struct adress add1 = {1,"Hauptstrasse", 23, "Paderborn", 33100};
+  printf("1. Adresse: %s %i, %i %s\n", add1.street, add1.number, add1.postalCode, add1.city);
+
+  struct adress adds[100] = {0};
+  setAddress(&adds, 10, "Mistelweg", 12, "Paderborn", 33100);
+  printf("11. Adresse: %s %i, %i %s\n", adds[10].street, adds[10].number, adds[10].postalCode, adds[10].city);
+
+  setAddress(&adds, 11, "Mistelweg", 12, "Paderborn", 33101);
+  setAddress(&adds, 12, "Mistelweg", 12, "Paderborn", 33100);
+  printf("\n");
+  printAddress(adds, 1);
+  printAddress(adds, 10);
+  printf("\n");
+  //printAllAdds(adds);
+  printf("Aktuell sind %i Adressen gespeichert.\n", countAdds(adds));
+  printIfUsed(adds, 10);
+  printAddsAtPostalCode(adds, 33100);
+  deleteAddsAtPostalCode(adds, 33100);
+
+  printf("\n");
+  printf("Aktuell sind %i Adressen gespeichert.\n", countAdds(adds));
+  printAddsAtPostalCode(adds, 33101);
+  deleteAddsAtPostalCode(adds, 33101);
+  printf("Aktuell sind %i Adressen gespeichert.\n", countAdds(adds));
+  printIfUsed(adds, 10);
+
+  printf("\n");
+
+  setAddress(adds, 11, "Mistelweg", 12, "Paderborn", 33133);
+  setAddress(adds, 12, "Weg", 12, "Münster", 33133);
+  printAddsAtPostalCode(adds, 33133);
+  swap(adds, 11, 12);
+  printAddsAtPostalCode(adds, 33133);
+
+  printf("\n");
+
+  deleteAllAdds(adds);
+  printf("Alle Adressen wurden gelöscht.");
+  printAddsAtPostalCode(adds, 33100);
+  printAddsAtPostalCode(adds, 33101);
+  printAddsAtPostalCode(adds, 33133);
+
+  printf("\n");
   printf("\n");
 
   return 0;
