@@ -11,11 +11,13 @@ struct adress {
 };
 
 void addTwoNumbers(int *a, int *b, int *c, int arrayLaenge) {
-  for(int i = 0; i < arrayLaenge; i++){
+  int i = 0;
+  while(i < arrayLaenge){
     *c = *a + *b;
     a++;
     b++;
     c++;
+    i++;
   }
 }
 
@@ -46,9 +48,11 @@ int countVocals(char* a)
 
 void printIntArray(char arr, int *a, int arrayLaenge) {
   printf("%c: ", arr);
-  for(int i = 0; i < arrayLaenge; i++){
+  int i = 0;
+  while(i < arrayLaenge){
     printf("%d ", *a);
     a++;
+    i++;
   }
   printf("\n");
 }
@@ -163,18 +167,17 @@ char* stringRemoveChars(char* string, char* spanset)
   return string;
 }
 
-void setAddress(struct adress* arr, int pos, char* street, int number, char* city, int postalCode)
-{
-  arr[pos].isUsed = 1;
-  strcpy(arr[pos].street, street);
-  arr[pos].number = number;
-  strcpy(arr[pos].city, city);
-  arr[pos].postalCode = postalCode;
+void setAddress(struct adress* arr, int pos, char* street, int number, char* city, int postalCode) {
+  (arr + pos)->isUsed = 1;
+  strcpy((arr + pos)->street, street);
+  (arr + pos)->number = number;
+  strcpy((arr + pos)->city, city);
+  (arr + pos)->postalCode = postalCode;
 }
 
 void printAddress(struct adress* arr, int pos)
 {
-  printf("Die Adresse an Position %i lautet: %s %i, %i %s\n", pos+1, arr[pos].street, arr[pos].number, arr[pos].postalCode, arr[pos].city);
+  printf("Die Adresse an Position %i lautet: %s %i, %i %s\n", pos+1, (arr + pos)->street, (arr + pos)->number, (arr + pos)->postalCode, (arr + pos)->city);
 }
 
 void printAllAdds(struct adress* arr)
@@ -189,7 +192,7 @@ void printAddsAtPostalCode(struct adress* arr, int postalCode)
 {
   for(int i = 0; i < 100; i++)
   {
-    if(arr[i].postalCode == postalCode)
+    if((arr + i)->postalCode == postalCode)
     {
       printAddress(arr, i);
     }
@@ -200,13 +203,13 @@ void deleteAddsAtPostalCode(struct adress* arr, int postalCode)
 {
   for(int i = 0; i < 100; i++)
   {
-    if(arr[i].postalCode == postalCode)
+    if((arr + i)->postalCode == postalCode)
     {
-      arr[i].isUsed = 0;
-      strcpy(arr[i].street, "");
-      arr[i].number = 0;
-      strcpy(arr[i].city, "");
-      arr[i].postalCode = 0;
+      (arr + i)->isUsed = 0;
+      strcpy((arr + i)->street, "");
+      (arr + i)->number = 0;
+      strcpy((arr + i)->city, "");
+      (arr + i)->postalCode = 0;
     }
   }
 }
@@ -217,7 +220,7 @@ int countAdds(struct adress* arr)
 
   for(int i = 0; i < 100; i++)
   {
-    if(arr[i].isUsed != 0)
+    if((arr + i)->isUsed != 0)
     {
       count++;
     }
@@ -228,7 +231,7 @@ int countAdds(struct adress* arr)
 
 int checkIfUsed(struct adress* arr, int pos)
 {
-  return arr[pos].isUsed;
+  return (arr + pos)->isUsed;
 }
 
 void printIfUsed(struct adress* arr, int pos)
@@ -254,11 +257,11 @@ void deleteAllAdds(struct adress* arr)
 {
   for(int i = 0; i < 100; i++)
   {
-    arr[i].isUsed = 0;
-    strcpy(arr[i].street, "");
-    arr[i].number = 0;
-    strcpy(arr[i].city, "");
-    arr[i].postalCode = 0;
+    (arr + i)->isUsed = 0;
+    strcpy((arr + i)->street, "");
+    (arr + i)->number = 0;
+    strcpy((arr + i)->city, "");
+    (arr + i)->postalCode = 0;
   }
 }
 
